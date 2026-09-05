@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot name="mecanum_arm_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+  <!-- INCLUDE FILES -->
+  <xacro:include filename="$(find robot)/urdf/merged_robot.xacro"/>
+  <xacro:include filename="$(find robot)/urdf/ros2control.xacro"/>
+  <xacro:include filename="$(find robot)/urdf/gazebo.xacro"/>
+  <xacro:include filename="$(find robot)/urdf/sensors.xacro"/>
+
+  <!-- BUILD ROBOT -->
+  <xacro:ros2_control_block name="ArmSystem" initial_positions_file="$(arg initial_positions_file)"/>
+  <xacro:gazebo_block/>
+
+
+</robot>

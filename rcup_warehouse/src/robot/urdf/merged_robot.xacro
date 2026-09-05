@@ -1,0 +1,1253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="mecanum_arm_robot"
+  xmlns:xacro="http://www.ros.org/wiki/xacro"
+  xmlns:ignition="http://ignitionrobotics.org">
+
+  <material name="base_chassis">
+    <color rgba="0.16 0.18 0.20 1.0" />
+  </material>
+  <material name="wheel_black">
+    <color rgba="0.05 0.05 0.06 1.0" />
+  </material>
+  <material name="accent_orange">
+    <color rgba="0.95 0.46 0.08 1.0" />
+  </material>
+  <material name="arm_light_grey">
+    <color rgba="0.82 0.83 0.85 1.0" />
+  </material>
+  <material name="gripper_dark">
+    <color rgba="0.18 0.19 0.21 1.0" />
+  </material>
+  <material name="finger_black">
+    <color rgba="0.08 0.08 0.09 1.0" />
+  </material>
+
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.080885" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0251818 0.0140581 4.35036e-05"
+        rpy="0 0 3.1415" />
+      <mass value="2.2136877" />
+      <inertia
+        ixx="0.0212574936"
+        ixy="-0.0005908165"
+        ixz="2.35651e-05"
+        iyy="0.0577101959"
+        iyz="-5.5932e-06"
+        izz="0.0430343235" />
+    </inertial>
+    <!-- <visual>
+      <origin xyz="0 0 0" rpy="0 0 3.1415" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.62745 0.62745 0.62745 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/base_link.STL" />
+      </geometry>
+    </collision> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 3.1415" />
+      <geometry>
+        <box size="0.392 0.2772 0.097685" />
+      </geometry>
+      <material name="">
+        <color rgba="0.62745 0.62745 0.62745 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.392 0.2772 0.097685" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="front_right_wheel">
+    <inertial>
+      <origin
+        xyz="3.901e-07 9.59e-08 0.016849"
+        rpy="0 0 0" />
+      <mass value="0.06237455" />
+      <inertia
+        ixx="1.57712e-05"
+        ixy="1.35e-08"
+        ixz="-1.295e-07"
+        iyy="1.57465e-05"
+        iyz="-7.03e-08"
+        izz="2.75601e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.035" rpy="0 0 0" />
+      <geometry>
+        <!-- <mesh
+          filename="file://$(find robot)/meshes/front_left_wheel.STL"
+          scale="1 1 1"/> -->
+          <cylinder radius="0.0525" length="0.021" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0525"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="front_right_wheel_joint" type="continuous">
+    <origin xyz="0.16135 -0.149275 -0.0245" rpy="-1.5708 0 0" />
+    <parent link="base_link" />
+    <child link="front_right_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="front_left_wheel">
+    <inertial>
+      <origin
+        xyz="3.903e-07 9.6e-08 -0.0163590346"
+        rpy="0 0 0" />
+      <mass value="0.0623739077" />
+      <inertia
+        ixx="1.57712e-05"
+        ixy="1.35e-08"
+        ixz="-1.295e-07"
+        iyy="1.57465e-05"
+        iyz="-7.03e-08"
+        izz="2.75604e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.035" rpy="0 0 0" />
+      <geometry>
+        <!-- <mesh
+          filename="file://$(find robot)/meshes/front_right_wheel.STL"
+          scale="1 -1 1"/> -->
+        <cylinder radius="0.0525" length="0.021" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0525"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="front_left_wheel_joint" type="continuous">
+    <origin xyz="0.161 0.149275 -0.0245" rpy="1.5708 0 3.1416" />
+    <parent link="base_link" />
+    <child link="front_left_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="back_left_wheel">
+    <inertial>
+      <origin
+        xyz="3.901e-07 9.56e-08 0.016849"
+        rpy="0 0 0" />
+      <mass value="0.06237455" />
+      <inertia
+        ixx="1.57712e-05"
+        ixy="1.35e-08"
+        ixz="-1.295e-07"
+        iyy="1.57465e-05"
+        iyz="-7.03e-08"
+        izz="2.75601e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <!-- <mesh filename="file://$(find robot)/meshes/back_left_wheel.STL" /> -->
+        <cylinder radius="0.0525" length="0.021" />
+      </geometry>
+      <material name="">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0525"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="back_left_wheel_joint" type="continuous">
+    <origin xyz="-0.16135 0.149275 -0.0245" rpy="1.5708 0 3.1416" />
+    <parent link="base_link" />
+    <child link="back_left_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="back_right_wheel">
+    <inertial>
+      <origin
+        xyz="3.908e-07 9.54e-08 -0.0163590347"
+        rpy="0 0 0" />
+      <mass value="0.0623739082" />
+      <inertia
+        ixx="1.57712e-05"
+        ixy="1.35e-08"
+        ixz="-1.295e-07"
+        iyy="1.57465e-05"
+        iyz="-7.03e-08"
+        izz="2.75604e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <!-- <mesh
+          filename="file://$(find robot)/meshes/back_right_wheel.STL"
+          scale="1 -1 1"/> -->
+        <cylinder radius="0.0525" length="0.021" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0525"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="back_right_wheel_joint" type="continuous">
+    <origin xyz="-0.161 -0.149275 -0.0245" rpy="-1.5708 0 0" />
+    <parent link="base_link" />
+    <child link="back_right_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <gazebo reference="front_right_wheel">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>0.2</mu2>
+            <fdir1 ignition:expressed_in="base_footprint">1 1 0</fdir1>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <visual>
+      <material>
+        <ambient>0.2 0.2 0.2 1.0</ambient>
+        <diffuse>0.2 0.2 0.2 1.0</diffuse>
+        <specular>0.3 0.3 0.3 1.0</specular>
+        <emissive>0.0 0.0 0.0 0.0</emissive>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="front_left_wheel">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>0.2</mu2>
+            <fdir1 ignition:expressed_in="base_footprint">1 -1 0</fdir1>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <visual>
+      <material>
+        <ambient>0.2 0.2 0.2 1.0</ambient>
+        <diffuse>0.2 0.2 0.2 1.0</diffuse>
+        <specular>0.3 0.3 0.3 1.0</specular>
+        <emissive>0.0 0.0 0.0 0.0</emissive>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="back_left_wheel">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>0.2</mu2>
+            <fdir1 ignition:expressed_in="base_footprint">1 1 0</fdir1>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <visual>
+      <material>
+        <ambient>0.2 0.2 0.2 1.0</ambient>
+        <diffuse>0.2 0.2 0.2 1.0</diffuse>
+        <specular>0.3 0.3 0.3 1.0</specular>
+        <emissive>0.0 0.0 0.0 0.0</emissive>
+      </material>
+    </visual>
+  </gazebo>
+
+  <gazebo reference="back_right_wheel">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>0.2</mu2>
+            <fdir1 ignition:expressed_in="base_footprint">1 -1 0</fdir1>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <visual>
+      <material>
+        <ambient>0.2 0.2 0.2 1.0</ambient>
+        <diffuse>0.2 0.2 0.2 1.0</diffuse>
+        <specular>0.3 0.3 0.3 1.0</specular>
+        <emissive>0.0 0.0 0.0 0.0</emissive>
+      </material>
+    </visual>
+  </gazebo>
+
+<link name="counterweight">
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="2.032031"/>
+    <inertia
+      ixx="0.0016807" ixy="0" ixz="0"
+      iyy="0.0016807" iyz="0"
+      izz="0.0016807"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.07 0.07 0.035"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.07 0.07 0.035"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="counterweight_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="counterweight"/>
+  <origin xyz="-0.126 -0.01785 0.035" rpy="0 0 0"/>
+</joint>
+
+  <!-- ============================================================
+       5-DOF ARM
+       Scaled independently from the base via the arm_scale property
+       below. Change arm_scale to resize just the arm on top of
+       base_link.
+       ============================================================ -->
+  <xacro:property name="arm_scale" value="1.0" />
+
+  <joint name="arm_base_joint" type="fixed">
+    <origin xyz="0.126 0.0 0.044" rpy="0.0 0.0 0.0" />
+    <parent link="base_link" />
+    <child link="arm_base" />
+    <axis xyz="0.0 0.0 1.0" />
+  </joint>
+
+<link
+    name="arm_base">
+    <inertial>
+      <origin
+        xyz="${-0.000574318952514363 * arm_scale} ${8.71933369950284E-09 * arm_scale} ${0.0397387129538838 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.845575675087858 * arm_scale**3}" />
+      <inertia
+        ixx="${0.00243283459144695 * arm_scale**5}"
+        ixy="${-1.57084851372232E-11 * arm_scale**5}"
+        ixz="${-3.94360358635638E-07 * arm_scale**5}"
+        iyy="${0.00243672722771256 * arm_scale**5}"
+        iyz="${2.47877793314836E-12 * arm_scale**5}"
+        izz="${0.00477827472292116 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/arm_base.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/arm_base.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link1">
+    <inertial>
+      <origin
+        xyz="${0.0104672363505767 * arm_scale} ${0.0130037589567118 * arm_scale} ${0.0887514585269518 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.294805326724156 * arm_scale**3}" />
+      <inertia
+        ixx="${0.000494520641136983 * arm_scale**5}"
+        ixy="${7.71447578216477E-05 * arm_scale**5}"
+        ixz="${-1.09087128391225E-05 * arm_scale**5}"
+        iyy="${0.000526647392068225 * arm_scale**5}"
+        iyz="${-1.32291209749821E-05 * arm_scale**5}"
+        izz="${0.000275588636139406 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link1.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link1.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint1"
+    type="revolute">
+    <origin
+      xyz="${0 * arm_scale} ${0 * arm_scale} ${0.0637999999999999 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="arm_base" />
+    <child
+      link="Link1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+        lower="-3.14"
+        upper="3.14"
+        effort="100"
+        velocity="2.0"/>
+  </joint>
+
+  
+  <link
+    name="Link2">
+    <inertial>
+      <origin
+        xyz="${0.0145929085684511 * arm_scale} ${-0.095193497861495 * arm_scale} ${0.208704831834355 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.615358469584155 * arm_scale**3}" />
+      <inertia
+        ixx="${0.00528683459717594 * arm_scale**5}"
+        ixy="${-0.000107802293650622 * arm_scale**5}"
+        ixz="${0.000217076740145559 * arm_scale**5}"
+        iyy="${0.00432759833357079 * arm_scale**5}"
+        iyz="${0.00166942026358935 * arm_scale**5}"
+        izz="${0.00128996133901587 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint2"
+    type="revolute">
+    <origin
+      xyz="${0.0493654257105637 * arm_scale} ${0.0629674380302429 * arm_scale} ${0.096866312640014 * arm_scale}"
+      rpy="-0.853422783514298 0.0375562443434387 0.921651311234904" />
+    <parent
+      link="Link1" />
+    <child
+      link="Link2" />
+    <axis
+      xyz="-0.998759127785777 0.0498016532315323 0" />
+
+    <limit
+        lower="-3.14"
+        upper="3.14"
+        effort="100"
+        velocity="2.0"/>
+
+    
+    
+  </joint>
+  <link
+    name="Link3">
+    <inertial>
+      <origin
+        xyz="${-0.0918379209757132 * arm_scale} ${-0.0967945193198121 * arm_scale} ${0.102996208510192 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.547836436672922 * arm_scale**3}" />
+      <inertia
+        ixx="${0.0072917470598008 * arm_scale**5}"
+        ixy="${3.63924247489624E-07 * arm_scale**5}"
+        ixz="${-6.45426763974438E-06 * arm_scale**5}"
+        iyy="${0.00393800602451967 * arm_scale**5}"
+        iyz="${0.00328204549277926 * arm_scale**5}"
+        izz="${0.00382906951565475 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link3.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link3.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint3"
+    type="revolute">
+    <origin
+      xyz="${0.0150729083014778 * arm_scale} ${-0.149509002764561 * arm_scale} ${0.330901216092781 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link2" />
+    <child
+      link="Link3" />
+    <axis
+      xyz="-0.998759127785812 0.0498016532308395 0" />
+    <limit
+        lower="-3.14"
+        upper="3.14"
+        effort="100"
+        velocity="2.0"/>
+  </joint>
+  <link
+    name="Link4">
+    <inertial>
+      <origin
+        xyz="${0.0918334014088884 * arm_scale} ${-0.00458203523122802 * arm_scale} ${0.00672183601259446 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.462803643323728 * arm_scale**3}" />
+      <inertia
+        ixx="${0.00059732911228678 * arm_scale**5}"
+        ixy="${8.73335696458294E-06 * arm_scale**5}"
+        ixz="${-7.44079317387951E-05 * arm_scale**5}"
+        iyy="${0.000772721879623989 * arm_scale**5}"
+        iyz="${3.66965518616369E-06 * arm_scale**5}"
+        izz="${0.000780971939008755 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link4.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link4.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="tcp" />
+  <joint name="end_effector" type="fixed">
+    <parent link="Link5" />
+    <child link="tcp" />
+    <origin xyz="${0 * arm_scale} ${0 * arm_scale} ${0.1 * arm_scale}" rpy="0 0 0" />
+  </joint>
+  <joint
+    name="Joint4"
+    type="revolute">
+    <origin
+      xyz="${-0.0336807621063758 * arm_scale} ${-0.173467508873688 * arm_scale} ${0.177903552627862 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link3" />
+    <child
+      link="Link4" />
+    <axis
+      xyz="0.998759127785812 -0.0498016532308386 0" />
+    <limit
+        lower="-3.14"
+        upper="3.14"
+        effort="100"
+        velocity="2.0"/>
+  </joint>
+  <link
+    name="Link5">
+    <inertial>
+      <origin
+        xyz="${5.16510475856435E-06 * arm_scale} ${0.000823289067492849 * arm_scale} ${0.0786324376939109 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.365663275650567 * arm_scale**3}" />
+      <inertia
+        ixx="${0.000218754439331582 * arm_scale**5}"
+        ixy="${-7.05727645748623E-07 * arm_scale**5}"
+        ixz="${4.50197885618574E-07 * arm_scale**5}"
+        iyy="${0.000261467554757976 * arm_scale**5}"
+        iyz="${-1.3208112671048E-06 * arm_scale**5}"
+        izz="${0.000372236862409116 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link5.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Link5.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint5"
+    type="revolute">
+    <origin
+      xyz="${0.141823796145833 * arm_scale} ${-0.00707183594519112 * arm_scale} ${0.0758294127267807 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link4" />
+    <child
+      link="Link5" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+        lower="-3.14"
+        upper="3.14"
+        effort="100"
+        velocity="2.0"/>
+  </joint>
+  <link
+    name="Gripper">
+    <inertial>
+      <origin
+        xyz="${0.0313419271439294 * arm_scale} ${0.00195800621903541 * arm_scale} ${0.0136563325616652 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.009689501837869 * arm_scale**3}" />
+      <inertia
+        ixx="${1.52631120431066E-06 * arm_scale**5}"
+        ixy="${2.16129057580804E-07 * arm_scale**5}"
+        ixz="${-2.92424940465045E-07 * arm_scale**5}"
+        iyy="${1.54632509875812E-06 * arm_scale**5}"
+        iyz="${2.04880033549596E-07 * arm_scale**5}"
+        izz="${1.14646903196643E-06 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Gripper.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Gripper.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Jaw"
+    type="prismatic">
+    <origin
+      xyz="${-0.000337767458213678 * arm_scale} ${-0.000111377297784765 * arm_scale} ${0.163732103919923 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link5" />
+    <child
+      link="Gripper" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="${-0.10 * 1}"
+      upper="${0.04 * 1}"
+      effort="${500 * 1**2}"
+      velocity="${100 * 1}" />
+  </joint>
+  <link
+    name="Gripper2">
+    <inertial>
+      <origin
+        xyz="${-0.0313426635954692 * arm_scale} ${-0.00204865937271781 * arm_scale} ${0.0135731985666656 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.00972502097423268 * arm_scale**3}" />
+      <inertia
+        ixx="${1.5488459986236E-06 * arm_scale**5}"
+        ixy="${2.14348007042954E-07 * arm_scale**5}"
+        ixz="${2.91441670018091E-07 * arm_scale**5}"
+        iyy="${1.56112763782309E-06 * arm_scale**5}"
+        iyz="${-2.15710093312019E-07 * arm_scale**5}"
+        izz="${1.16943928328056E-06 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Gripper2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Gripper2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Jaw2"
+    type="prismatic">
+    <origin
+      xyz="${-0.000337767458213678 * arm_scale} ${-0.000111377297784765 * arm_scale} ${0.163732103919923 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link5" />
+    <child
+      link="Gripper2" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="${-0.10 * 1}"
+      upper="${0.04 * 1}"
+      effort="${500 * 1**2}"
+      velocity="${100 * 1}" />
+  </joint>
+  <link
+    name="Servo6">
+    <inertial>
+      <origin
+        xyz="${-0.00775504060016519 * arm_scale} ${0.0171761443248705 * arm_scale} ${-0.0191283435208822 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.0338992195998093 * arm_scale**3}" />
+      <inertia
+        ixx="${6.7467652695532E-06 * arm_scale**5}"
+        ixy="${-1.03929617192294E-06 * arm_scale**5}"
+        ixz="${-1.18882814777727E-06 * arm_scale**5}"
+        iyy="${6.30870940715175E-06 * arm_scale**5}"
+        iyz="${1.02323513693698E-06 * arm_scale**5}"
+        izz="${7.1597657663898E-06 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo6.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo6.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="S6"
+    type="fixed">
+    <origin
+      xyz="${-0.0203490814615676 * arm_scale} ${-0.0223613772978513 * arm_scale} ${0.141200000002861 * arm_scale}"
+      rpy="0.626204560037557 0.625305597060859 -0.730178297772079" />
+    <parent
+      link="Link5" />
+    <child
+      link="Servo6" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="ServoHorn">
+    <inertial>
+      <origin
+        xyz="${-2.65708967304157E-05 * arm_scale} ${2.3896435675852E-05 * arm_scale} ${0.00787238289084291 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.00121114139692214 * arm_scale**3}" />
+      <inertia
+        ixx="${1.30283451337988E-07 * arm_scale**5}"
+        ixy="${-2.97677483756127E-09 * arm_scale**5}"
+        ixz="${4.33308622869522E-10 * arm_scale**5}"
+        iyy="${1.21841907449586E-07 * arm_scale**5}"
+        iyz="${-1.71314850402873E-09 * arm_scale**5}"
+        izz="${1.66797169377445E-08 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/ServoHorn.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/ServoHorn.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="SHorn"
+    type="fixed">
+    <origin
+      xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+      rpy="-0.168237624265602 0.961175410979556 3.00323393606966" />
+    <parent
+      link="Servo6" />
+    <child
+      link="ServoHorn" />
+    <axis
+      xyz="0.953640041309816 -0.300949616398845 0" />
+  </joint>
+  <link
+    name="Servo5">
+    <inertial>
+      <origin
+        xyz="${-0.00936552104157173 * arm_scale} ${0.00760286939595534 * arm_scale} ${0.0105111080561433 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.0454736 * arm_scale**3}" />
+      <inertia
+        ixx="${1.03307477287699E-05 * arm_scale**5}"
+        ixy="${-2.59539696915875E-06 * arm_scale**5}"
+        ixz="${2.41180843247704E-07 * arm_scale**5}"
+        iyy="${9.24055957526323E-06 * arm_scale**5}"
+        iyz="${-1.95789048348662E-07 * arm_scale**5}"
+        izz="${1.25235048399669E-05 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo5.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo5.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="S5"
+    type="fixed">
+    <origin
+      xyz="${0.146990716801936 * arm_scale} ${-0.00697552224343512 * arm_scale} ${-0.00117058727172004 * arm_scale}"
+      rpy="0.626204560037557 0.625305597060859 -0.730178297772079" />
+    <parent
+      link="Link4" />
+    <child
+      link="Servo5" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="Servo4">
+    <inertial>
+      <origin
+        xyz="${0.0152838579461713 * arm_scale} ${0.0188272724068372 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.0454736000000001 * arm_scale**3}" />
+      <inertia
+        ixx="${1.01698298680469E-05 * arm_scale**5}"
+        ixy="${-2.4647648908021E-06 * arm_scale**5}"
+        ixz="${-3.73793817103654E-08 * arm_scale**5}"
+        iyy="${9.13451329911277E-06 * arm_scale**5}"
+        iyz="${3.03443402651099E-08 * arm_scale**5}"
+        izz="${1.27904689768404E-05 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo4.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo4.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="S4"
+    type="fixed">
+    <origin
+      xyz="${-0.113385808564421 * arm_scale} ${-0.165558989844042 * arm_scale} ${0.174264061455925 * arm_scale}"
+      rpy="0.626204560037558 0.625305597060859 -0.730178297772079" />
+    <parent
+      link="Link3" />
+    <child
+      link="Servo4" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="Servo3">
+    <inertial>
+      <origin
+        xyz="${0.0169502482200845 * arm_scale} ${0.0220391405672838 * arm_scale} ${-5.55924001366392E-06 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.0388630957707345 * arm_scale**3}" />
+      <inertia
+        ixx="${1.87313755714949E-05 * arm_scale**5}"
+        ixy="${4.27797539623738E-06 * arm_scale**5}"
+        ixz="${-1.27887285831715E-08 * arm_scale**5}"
+        iyy="${2.04752161211675E-05 * arm_scale**5}"
+        iyz="${1.52320790795065E-08 * arm_scale**5}"
+        izz="${1.43779591384557E-05 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo3.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo3.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="S3"
+    type="fixed">
+    <origin
+      xyz="${0.0150729083014778 * arm_scale} ${-0.149509002764561 * arm_scale} ${0.330901216092781 * arm_scale}"
+      rpy="0.626204560037558 0.625305597060859 -0.730178297772079" />
+    <parent
+      link="Link2" />
+    <child
+      link="Servo3" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="Servo2">
+    <inertial>
+      <origin
+        xyz="${0.00987298497549099 * arm_scale} ${0.0121619310278281 * arm_scale} ${-0.0121100890145869 * arm_scale}"
+        rpy="0 0 0" />
+      <mass
+        value="${0.0447838528375546 * arm_scale**3}" />
+      <inertia
+        ixx="${9.30134325588415E-06 * arm_scale**5}"
+        ixy="${6.37357317983374E-07 * arm_scale**5}"
+        ixz="${2.06166227086134E-08 * arm_scale**5}"
+        iyy="${9.56906116608352E-06 * arm_scale**5}"
+        iyz="${2.54119155797078E-08 * arm_scale**5}"
+        izz="${3.63539439068461E-06 * arm_scale**5}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="${0 * arm_scale} ${0 * arm_scale} ${0 * arm_scale}"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find robot)/meshes/Servo2.STL" scale="${arm_scale} ${arm_scale} ${arm_scale}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="S2"
+    type="fixed">
+    <origin
+      xyz="${0.00157565545865646 * arm_scale} ${0.00194091674973929 * arm_scale} ${0.0975000000000001 * arm_scale}"
+      rpy="0 0 0" />
+    <parent
+      link="Link1" />
+    <child
+      link="Servo2" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.025 0.09 0.025" />
+      </geometry>
+      <material name="akshit">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06 0.03 0.03" />
+      </geometry>
+      <material name="akshit">
+        <color rgba="1 1 1 1" />
+      </material>
+    </collision>
+    <inertial>
+      <mass value="0.0000000001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0000000001" ixy="0.0" ixz="0.0" iyy="0.0000000001" iyz="0.0" izz="0.0000000001" />
+    </inertial>
+  </link>
+
+
+
+  <link name="camera_rod">
+    <visual>
+      <origin xyz="0.19 0 0.175" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.35"/>
+      </geometry>
+      <material name="akshit">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual> 
+    <collision>
+      <origin xyz="0.19 0 0.175" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.35"/>
+      </geometry>
+      <material name="akshit">
+        <color rgba="1 1 1 1" />
+      </material>
+    </collision> 
+
+    <inertial>
+      <mass value="0.1" />
+      <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+      <inertia ixx="0.0000000001" ixy="0.0" ixz="0.0" iyy="0.0000000001" iyz="0.0" izz="0.0000000001" />
+    </inertial>
+  </link>
+    <!-- Mount depth camera right next to regular camera -->
+  <joint name="camera_rod_joint" type="fixed">
+      <origin xyz="0.0 -0.13 0.05" rpy="0.0 0.0 0.0"/>
+      <parent link="base_link"/>
+      <child link="camera_rod"/>
+  </joint>
+
+  <joint name="rod_to_camera" type="fixed">
+    <parent link="camera_rod"/>
+    <child link="camera_link"/>
+    <origin xyz="0.19 0 0.35" rpy="0 0.785 0"/>
+  </joint>
+
+  <link name="camera_optical_link">
+      <inertial>
+      <mass value="0.0000000001" />
+      <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+      <inertia ixx="0.0000000001" ixy="0.0" ixz="0.0" iyy="0.0000000001" iyz="0.0" izz="0.0000000001" />
+    </inertial>
+  </link>
+
+  <joint name="optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  </joint>
+
+  <gazebo reference="camera_link">
+    <sensor name="rgbd_camera" type="rgbd_camera">
+      <pose>0.0127 0 0 0 0 0</pose>
+      <camera>
+        <horizontal_fov>1.477</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+        </image>
+        <clip>
+          <near>0.05</near>
+          <far>10</far>
+        </clip>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>20</update_rate>
+      <visualize>true</visualize>
+      <topic>rgbd_camera</topic>
+      <gz_frame_id>camera_optical_link</gz_frame_id>
+    </sensor>
+</gazebo>
+
+
+</robot>

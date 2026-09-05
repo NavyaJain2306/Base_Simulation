@@ -1,0 +1,10 @@
+# Default initial positions for mecanum_arm_robot's ros2_control fake system
+
+initial_positions:
+  Jaw: 0
+  Jaw2: 0
+  Joint1: 1.002
+  Joint2: 0.798
+  Joint3: -1.782
+  Joint4: 1.816
+  Joint5: 0.017
