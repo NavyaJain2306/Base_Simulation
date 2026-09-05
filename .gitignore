@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Custom Ignored ROS2 Packages
+laser_line_extraction/
+

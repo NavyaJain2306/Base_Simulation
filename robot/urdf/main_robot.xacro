@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="mecanum_robot"
+  xmlns:xacro="http://www.ros.org/wiki/xacro"
+xmlns:ignition="http://ignitionrobotics.org">
+
+<link name="base_footprint"/>
+<joint name="base_joint" type="fixed">
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.035974 0.020083 6.2148E-05"
+        rpy="0 0 3.1415" />
+      <mass
+        value="6.4539" />
+      <inertia
+        ixx="0.12648"
+        ixy="-0.0035153"
+        ixz="0.00014021"
+        iyy="0.34337"
+        iyz="-3.3279E-05"
+        izz="0.25605" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.62745 0.62745 0.62745 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_right_wheel">
+    <inertial>
+      <origin
+        xyz="5.5722E-07 1.3698E-07 0.02407"
+        rpy="0 0 0" />
+      <mass
+        value="0.18185" />
+      <inertia
+        ixx="9.3837E-05"
+        ixy="8.0211E-08"
+        ixz="-7.707E-07"
+        iyy="9.369E-05"
+        iyz="-4.1837E-07"
+        izz="0.00016398" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.05"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/front_left_wheel.STL" 
+          scale = "1 1 1"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+   <collision>
+  <origin xyz="0 0 0" rpy="0 0 0" />
+  <geometry>
+    <sphere radius="0.075"/>
+  </geometry>
+</collision>
+  </link>
+  <joint
+    name="front_right_wheel_joint"
+    type="continuous">
+    <!-- <origin
+      xyz="0.2305 -0.21325 -0.035"
+      rpy="-1.5708 1.0255 -3.1416" /> -->
+    
+    <origin xyz="0.2305 -0.21325 -0.035" 
+    rpy="-1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_right_wheel" />
+    <axis
+      xyz="0 0 1" />
+    <!-- <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" /> -->
+  </joint>
+  <link
+    name="front_left_wheel">
+    <inertial>
+      <origin
+        xyz="5.57590506100603E-07 1.37181806303399E-07 -0.0233700493804863"
+        rpy="0 0 0" />
+      <mass
+        value="0.181848127423734" />
+      <inertia
+        ixx="9.38370018165505E-05"
+        ixy="8.02094351731218E-08"
+        ixz="-7.70699771255908E-07"
+        iyy="9.36898678844454E-05"
+        iyz="-4.18368785366075E-07"
+        izz="0.000163981504266464" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.05"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/front_right_wheel.STL" 
+          scale = "1 -1 1"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+  <collision>
+  <origin xyz="0 0 0" rpy="0 0 0" />
+  <geometry>
+    <sphere radius="0.075"/>
+  </geometry>
+</collision>
+  </link>
+  <joint
+    name="front_left_wheel_joint"
+    type="continuous">
+    <!-- <origin
+      xyz="0.23 0.21325 -0.035"
+      rpy="1.5708 1.3797 0" /> -->
+    <origin xyz="0.23 0.21325 -0.035" 
+    rpy="1.5708 0 3.1416" />
+
+    <parent
+      link="base_link" />
+    <child
+      link="front_left_wheel" />
+    <axis
+      xyz="0 0 1" />
+    <!-- <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" /> -->
+  </joint>
+  <link
+    name="back_left_wheel">
+    <inertial>
+      <origin
+        xyz="5.5731E-07 1.366E-07 0.02407"
+        rpy="0 0 0" />
+      <mass
+        value="0.18185" />
+      <inertia
+        ixx="9.3837E-05"
+        ixy="8.0209E-08"
+        ixz="-7.707E-07"
+        iyy="9.369E-05"
+        iyz="-4.1837E-07"
+        izz="0.00016398" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/back_left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+  <origin xyz="0 0 0" rpy="0 0 0" />
+  <geometry>
+    <sphere radius="0.075"/>
+  </geometry>
+</collision>
+  </link>
+  <joint
+    name="back_left_wheel_joint"
+    type="continuous">
+    <!-- <origin
+      xyz="-0.2305 0.21325 -0.035"
+      rpy="-1.5708 -0.77266 0" /> -->
+    <origin xyz="-0.2305 0.21325 -0.035" 
+    rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_left_wheel" />
+    <axis
+      xyz="0 0 1" />
+    <!-- <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" /> -->
+  </joint>
+
+  <link
+    name="back_right_wheel">
+    <inertial>
+      <origin
+        xyz="5.58348600632197E-07 1.3626034917058E-07 -0.0233700496011711"
+        rpy="0 0 0" />
+      <mass
+        value="0.181848128778831" />
+      <inertia
+        ixx="9.38369979810421E-05"
+        ixy="8.02094977130252E-08"
+        ixz="-7.70699508241563E-07"
+        iyy="9.36898637208611E-05"
+        iyz="-4.18369878868712E-07"
+        izz="0.00016398149673665" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/back_right_wheel.STL" 
+          scale = "1 -1 1"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+   <collision>
+  <origin xyz="0 0 0" rpy="0 0 0" />
+  <geometry>
+    <sphere radius="0.075"/>
+  </geometry>
+</collision>
+  </link>
+  <joint
+    name="back_right_wheel_joint"
+    type="continuous">
+    <!-- <origin
+      xyz="-0.23 -0.21325 -0.035"
+      rpy="-1.5708 -0.99293 0" /> -->
+    <origin xyz="-0.23 -0.21325 -0.035"
+     rpy="-1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_right_wheel" />
+    <axis
+      xyz="0 0 1" />
+    <!-- <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" /> -->
+  </joint>
+
+<gazebo reference="front_right_wheel">
+      <collision>
+    <surface>
+      <friction>
+        <ode>
+          
+          <mu>1.0</mu>
+<mu2>0.2</mu2>
+
+          <fdir1 ignition:expressed_in="base_footprint">1 1 0</fdir1>
+        </ode>
+      </friction>
+      <contact>
+        <ode>
+          <kp>10000000.0</kp>
+<kd>100.0</kd>
+        </ode>
+      </contact>  fdir
+    </surface>
+  </collision>
+  <visual>
+    <material>
+      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <diffuse>0.2 0.2 0.2 1.0</diffuse>
+      <specular>0.3 0.3 0.3 1.0</specular>
+      <emissive>0.0 0.0 0.0 0.0</emissive>
+    </material>
+  </visual>
+    </gazebo> 
+
+    <gazebo reference="front_left_wheel">
+      <collision>
+    <surface>
+      <friction>
+        <ode>
+          
+          <mu>1.0</mu>
+<mu2>0.2</mu2>
+
+          <fdir1 ignition:expressed_in="base_footprint">1 -1 0</fdir1>
+        </ode>
+      </friction>
+      <contact>
+        <ode>
+          <kp>10000000.0</kp>
+<kd>100.0</kd>
+        </ode>
+      </contact>  
+    </surface>
+  </collision>
+  <visual>
+    <material>
+      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <diffuse>0.2 0.2 0.2 1.0</diffuse>
+      <specular>0.3 0.3 0.3 1.0</specular>
+      <emissive>0.0 0.0 0.0 0.0</emissive>
+    </material>
+  </visual>
+    </gazebo>
+
+
+    <gazebo reference="back_left_wheel">
+      <collision>
+    <surface>
+      <friction>
+        <ode>
+          
+          <mu>1.0</mu>
+<mu2>0.2</mu2>
+
+          <fdir1 ignition:expressed_in="base_footprint">1 1 0</fdir1>
+        </ode>
+      </friction>
+      <contact>
+        <ode>
+          <kp>10000000.0</kp>
+<kd>100.0</kd>
+        </ode>
+      </contact>  
+    </surface>
+  </collision>
+  <visual>
+    <material>
+      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <diffuse>0.2 0.2 0.2 1.0</diffuse>
+      <specular>0.3 0.3 0.3 1.0</specular>
+      <emissive>0.0 0.0 0.0 0.0</emissive>
+    </material>
+  </visual>
+    </gazebo>
+
+
+
+    <gazebo reference="back_right_wheel">
+      <collision>
+    <surface>
+      <friction>
+        <ode>
+          
+          <mu>1.0</mu>
+<mu2>0.2</mu2>
+
+          <fdir1 ignition:expressed_in="base_footprint">1 -1 0</fdir1>
+        </ode>
+      </friction>
+      <contact>
+        <ode>
+          <kp>10000000.0</kp>
+<kd>100.0</kd>
+        </ode>
+      </contact>  
+    </surface>
+  </collision>
+  <visual>
+    <material>
+      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <diffuse>0.2 0.2 0.2 1.0</diffuse>
+      <specular>0.3 0.3 0.3 1.0</specular>
+      <emissive>0.0 0.0 0.0 0.0</emissive>
+    </material>
+  </visual>
+    </gazebo>
+
+
+
+  <link
+    name="1">
+    <inertial>
+      <origin
+        xyz="0.0117340449197307 0.173514174889526 -0.00193178496078945"
+        rpy="0 0 0" />
+      <mass
+        value="0.0824710826820391" />
+      <inertia
+        ixx="3.47508313921151E-05"
+        ixy="1.29214179734263E-06"
+        ixz="1.16252229918454E-07"
+        iyy="3.98809753459994E-05"
+        iyz="-9.54260106687812E-09"
+        izz="4.9524730275386E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="1_Joint"
+    type="fixed">
+    <origin
+      xyz="0.19 0 0.11163"
+      rpy="1.5708 0 -0.11548" />
+    <parent
+      link="base_link" />
+    <child
+      link="1" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="2">
+    <inertial>
+      <origin
+        xyz="-0.00381062686530932 0.233732275691006 0.0606579153370659"
+        rpy="0 0 0" />
+      <mass
+        value="0.249694120964073" />
+      <inertia
+        ixx="0.00381252028503523"
+        ixy="5.51191544774074E-05"
+        ixz="-4.81406703844395E-06"
+        iyy="0.000295603906582292"
+        iyz="0.000433148634179266"
+        izz="0.00372761785886154" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="2_Joint"
+    type="fixed">
+    <origin
+      xyz="0 0.13371 0"
+      rpy="-3.1416 0 -1.5" />
+    <parent
+      link="1" />
+    <child
+      link="2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="3">
+    <inertial>
+      <origin
+        xyz="0.00658040324732606 -0.0199951076827263 -0.138637297546004"
+        rpy="0 0 0" />
+      <mass
+        value="0.216229937958496" />
+      <inertia
+        ixx="0.00161651358880157"
+        ixy="-4.24173421639503E-06"
+        ixz="-6.96612350971598E-05"
+        iyy="0.00163067776597064"
+        iyz="0.000128455830607639"
+        izz="0.00014743092059666" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="3_Joint"
+   type="fixed">
+    <origin
+      xyz="-0.0048664 0.34497 0"
+      rpy="1.5708 0.38964 2.2667" />
+    <parent
+      link="2" />
+    <child
+      link="3" />
+    <axis
+      xyz="0.37986 -0.92505 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="4">
+    <inertial>
+      <origin
+        xyz="-0.0520975327022381 0.0173937120878088 -0.0117380902085861"
+        rpy="0 0 0" />
+      <mass
+        value="0.103078861981804" />
+      <inertia
+        ixx="0.000119207078442535"
+        ixy="8.78722767309915E-06"
+        ixz="-1.87512025476334E-05"
+        iyy="0.000142933493161406"
+        iyz="4.84495707730138E-06"
+        izz="6.93075856193788E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="4_Joint"
+    type="fixed">
+    <origin
+      xyz="-0.00083159 -0.0041251 -0.25157"
+      rpy="-1.5708 -1.2389 1.8351" />
+    <parent
+      link="3" />
+    <child
+      link="4" />
+    <axis
+      xyz="0.94543 -0.32584 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="5">
+    <inertial>
+      <origin
+        xyz="0.30630510911147 -0.193671529256002 0.113020901207313"
+        rpy="0 0 0" />
+      <mass
+        value="0.114390061694423" />
+      <inertia
+        ixx="0.000129909710930519"
+        ixy="-2.38444755478783E-06"
+        ixz="-4.38703780368475E-06"
+        iyy="0.000122878438001595"
+        iyz="2.23427622957893E-07"
+        izz="4.2874695272114E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="5_Joint"
+    type="fixed">
+    <origin
+      xyz="-0.22997 0.0503 0.42036"
+      rpy="1.5708 1.2698 1.9802" />
+    <parent
+      link="4" />
+    <child
+      link="5" />
+    <axis
+      xyz="0.95503 -0.29651 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="6">
+    <inertial>
+      <origin
+        xyz="0.00106569615312752 -0.00342171282351453 -0.0161372079362495"
+        rpy="0 0 0" />
+      <mass
+        value="0.113556063120094" />
+      <inertia
+        ixx="8.16096029444656E-05"
+        ixy="-1.19238106714437E-05"
+        ixz="1.03581727875417E-06"
+        iyy="0.000116280894230888"
+        iyz="-3.35304758858461E-06"
+        izz="9.44461734001591E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.0980392156862745 0.0980392156862745 0.0980392156862745 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="6_Joint"
+    type="fixed">
+    <origin
+      xyz="0.30107 -0.20637 0"
+      rpy="3.1416 0 -0.57959" />
+    <parent
+      link="5" />
+    <child
+      link="6" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="7">
+    <inertial>
+      <origin
+        xyz="0.933598897095189 -1.22310441438753 0.715664610222442"
+        rpy="0 0 0" />
+      <mass
+        value="0.0551592913995871" />
+      <inertia
+        ixx="4.03179767489813E-05"
+        ixy="1.03222757944055E-06"
+        ixz="-9.14082151872735E-06"
+        iyy="4.94132223100866E-05"
+        iyz="2.90811301205954E-06"
+        izz="2.23158510147405E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/7.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/7.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="7_Joint"
+    type="fixed">
+    <origin
+      xyz="0.28806 -1.091 -1.2155"
+      rpy="-0.14783 -0.61851 3.1416" />
+    <parent
+      link="6" />
+    <child
+      link="7" />
+    <axis
+      xyz="0.77811 0.37484 -0.50403" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="8">
+    <inertial>
+      <origin
+        xyz="0.916935305339077 -1.23113172240233 0.726458732645121"
+        rpy="0 0 0" />
+      <mass
+        value="0.0551592333435095" />
+      <inertia
+        ixx="4.0317821570716E-05"
+        ixy="1.03222926041441E-06"
+        ixz="-9.14087859356459E-06"
+        iyy="4.94130448813376E-05"
+        iyz="2.90811628212591E-06"
+        izz="2.23158212484793E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/8.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find robot)/meshes/8.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="8_Joint"
+    type="fixed"
+    >
+    <origin
+      xyz="-0.27453 1.0952 -1.2155"
+      rpy="-0.14783 -0.61851 0" />
+    <parent
+      link="6" />
+    <child
+      link="8" />
+    <axis
+      xyz="0.77811 0.37484 -0.50403" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+<ros2_control name="MecanumDriveSystem" type="system">
+
+  <hardware>
+    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+  </hardware>
+
+  <joint name="front_left_wheel_joint">
+    <command_interface name="velocity"/>
+     <state_interface name="position"/> 
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="front_right_wheel_joint">
+    <command_interface name="velocity"/>
+     <state_interface name="position"/> 
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="back_left_wheel_joint">
+    <command_interface name="velocity"/>
+     <state_interface name="position"/> 
+    <state_interface name="velocity"/>
+  </joint>
+
+  <joint name="back_right_wheel_joint">
+    <command_interface name="velocity"/>
+     <state_interface name="position"/> 
+    <state_interface name="velocity"/>
+  </joint>
+
+</ros2_control>
+
+  <gazebo>
+    <plugin filename="libign_ros2_control-system.so"
+            name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find robot)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+
+
+  <!--IMU SENSOR-->
+  <link name = "imu_link">
+   <inertial>
+    <mass value="0.01"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.0000166" ixy="0" ixz="0"
+             iyy="0.0000166" iyz="0"
+             izz="0.0000166"/>
+  </inertial>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <topic>/imu</topic>
+      <plugin filename="libignition-gazebo-imu-system.so"
+              name="ignition::gazebo::systems::Imu">
+      </plugin>
+      <ignition_frame_id>imu_link</ignition_frame_id>
+      <imu>
+      <angular_velocity>
+        <x><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></x>
+        <y><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></y>
+        <z><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></z>
+      </angular_velocity>
+      <linear_acceleration>
+        <x><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></x>
+        <y><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></y>
+        <z><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></z>
+      </linear_acceleration>
+    </imu>
+    </sensor>
+  </gazebo>
+
+
+
+<!-- LIDAR SENSOR -->
+  <link name="lidar_link">
+  <inertial>
+    <mass value="0.1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="0.000166" ixy="0" ixz="0"
+             iyy="0.000166" iyz="0"
+             izz="0.000166"/>
+  </inertial>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0.25 0 0.25" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="lidar_link">
+    <sensor name="lidar_sensor" type="gpu_lidar">
+      <always_on>true</always_on>
+      <update_rate>20</update_rate>
+      <topic>/scan</topic>
+      <visualize>true</visualize>
+      <ignition_frame_id>lidar_link</ignition_frame_id>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>640</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.5708</min_angle>
+            <max_angle>1.5708</max_angle>
+          </horizontal>
+
+          <vertical>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+            </vertical>
+
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+    </sensor>
+  </gazebo>
+
+  </robot>

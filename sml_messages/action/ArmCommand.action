@@ -1,0 +1,16 @@
+# Goal — one complete pick-and-place cycle for a single block
+string  object_id     # unique collision-object id, e.g. "block_type3_0"
+
+float32 pick_x
+float32 pick_y
+float32 pick_z
+
+float32 place_x
+float32 place_y
+float32 place_z
+---
+# Result
+bool   success
+---
+# Feedback
+string status
