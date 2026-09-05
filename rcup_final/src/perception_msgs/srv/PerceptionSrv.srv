@@ -1,6 +1,0 @@
-int32 target_samples
----
-geometry_msgs/PoseArray block_poses 
-string[] block_classes
-string[] block_ids
-shape_msgs/SolidPrimitive[] block_dims
