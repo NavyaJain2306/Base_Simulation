@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="lego_2x2_green">
+    <link name="link">
+      <inertial>
+        <mass>0.005</mass>
+        <inertia>
+          <ixx>2.802e-6</ixx><iyy>2.912e-6</iyy><izz>3.631e-6</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh><uri>model://meshes/2x2_base_simplified.obj</uri><scale>2 2 2</scale></mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh><uri>model://meshes/2x2_base_simplified.obj</uri><scale>2 2 2</scale></mesh>
+        </geometry>
+        <material>
+          <ambient>0.1 0.8 0.1 1</ambient>
+          <diffuse>0.1 0.8 0.1 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
