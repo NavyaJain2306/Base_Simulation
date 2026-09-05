@@ -1,0 +1,17 @@
+string  object_id
+string  station
+int32   block_slot
+
+float32 pick_x
+float32 pick_y
+float32 pick_z
+
+float32 place_x
+float32 place_y
+float32 place_z
+---
+# Result
+bool   success
+---
+# Feedback
+string status

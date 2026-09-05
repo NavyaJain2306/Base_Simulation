@@ -1,0 +1,137 @@
+<robot name="ax_grip" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:macro name="ax_grip" params="parent *origin">
+
+<joint name="mount_joint" type="fixed">
+  <parent link="${parent}"/>
+  <child link="ax_grip_rod"/>
+   <xacro:insert_block name="origin"/>
+  </joint>
+
+</xacro:macro>
+  <link name="ax_grip_base">
+    <inertial>
+        <origin xyz="0 0.00034 0.03421" rpy="0 0 0" />
+        <mass value="0.1502" />
+        <inertia
+          ixx="4.31750564711759E-05"
+          ixy="-2.21295720427027E-08"
+          ixz="-3.27825836857102E-12"
+          iyy="9.99756357365307E-05"
+          iyz="1.10337380549335E-07"
+          izz="0.000118282295533688" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/gripper_base_link.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/gripper_base_link.dae" />
+        </geometry>
+    </collision>
+  </link>
+
+  <link name="ax_right_finger">
+    <inertial>
+        <origin xyz="-0.00027 -0.04676 -0.00921" rpy="0 0 0" />
+        <mass value="0.0265" />
+        <inertia
+          ixx="9.99782519244544E-06"
+          ixy="-1.57547595978589E-07"
+          ixz="-2.71355785017816E-08"
+          iyy="6.17952364356547E-06"
+          iyz="-1.58939504838734E-06"
+          izz="1.42102253390315E-05" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/right_finger.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/right_finger.dae" />
+        </geometry>
+      </collision>
+  </link>
+
+    <link name="ax_left_finger">
+      <inertial>
+        <origin xyz="0.00027 0.04676 -0.00921" rpy="0 0 0" />
+        <mass value="0.0265" />
+        <inertia
+          ixx="9.99782474142963E-06"
+          ixy="-1.57547666236405E-07"
+          ixz="2.71355834243046E-08"
+          iyy="6.17952362333486E-06"
+          iyz="1.58939503259658E-06"
+          izz="1.42102248648757E-05" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/left_finger.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="file://$(find piper_description)/meshes/left_finger.dae" />
+        </geometry>
+      </collision>
+    </link>
+
+<link name="ax_grip_rod">
+  <inertial>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <mass value="0.1"/>
+    <inertia
+      ixx="0.00000333"
+      ixy="0"
+      ixz="0"
+      iyy="0.00075083"
+      iyz="0"
+      izz="0.00075083"/>
+  </inertial>
+
+  <visual>
+    <geometry>
+      <box size="0.02 0.02 0.1"/>
+    </geometry>
+  </visual>
+
+  <collision>
+    <geometry>
+      <box size="0.02 0.02 0.3"/>
+    </geometry>
+  </collision>
+</link>
+
+
+<joint name="ax_grip_rod_joint" type="fixed">
+  <parent link="ax_grip_rod"/>
+  <child link="ax_grip_base"/>
+  <origin xyz="0 0 0.05" rpy="0 -1.57 0"/>
+</joint>
+
+
+
+
+    <joint name="left_gripper_joint" type="prismatic">
+      <origin xyz="0 0 0.13503" rpy="0 0 0" />
+      <parent link="ax_grip_base"/>
+      <child link="ax_left_finger" />
+      <axis xyz="0 -1 0" />
+      <limit lower="0" upper="0.038" effort="100" velocity="0.2" />
+    </joint>
+
+
+
+    <joint name="right_gripper_joint" type="prismatic">
+      <origin xyz="0 0 0.13503" rpy="0 0 0" />
+      <parent link="ax_grip_base"/>
+      <child link="ax_right_finger" />
+      <axis xyz="0 1 0" />
+      <limit lower="0" upper="0.038" effort="100" velocity="0.2" />
+    </joint>
+
+</robot>

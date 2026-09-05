@@ -1,0 +1,198 @@
+# assembly_recipes.yaml
+#
+# One entry per object_name that can be assembled, selected at runtime via the
+# 'object_name' ROS 2 parameter passed to mtc_node (see pickplace_launch.py):
+#
+#   ros2 launch mtc_tutorial pickplace_launch.py object_name:=burger
+#
+#   blocks: initial planning-scene staging pose for each collision object, BEFORE
+#   any picking happens. x,y should match where the real Lego piece lands in the
+#   matching Gazebo world (worlds/<object_name>.sdf); z=0.012 is resting height for
+#   a single 24mm-tall piece on the table. 'block1' is the first anchor piece: it
+#   is placed but never picked. Some objects also have a second static piece
+#   (e.g. block4/block5 in a couple of recipes below) that likewise is only ever
+#   referenced by a weld/attach, never individually grasped.
+#
+# steps (executed in order):
+#   pick_place -> picks 'object_id' from wherever it currently sits in the planning
+#                 scene and places it at 'place': [x,y,z], allowing collision with
+#                 'allow_collision_with' while doing so.
+#   weld       -> calls the real /link_attacher/attach service to physically glue
+#                 model1/link1 to model2/link2 in Gazebo. Purely physical - it does
+#                 not touch the MoveIt planning scene by itself.
+#   attach     -> tells mtc_node that 'into' and 'from' are now rigidly connected
+#                 (mirroring the weld above). Each object keeps its own independent
+#                 collision shape - nothing is merged or resized. From this point on,
+#                 whenever EITHER of them (or anything later attached to the same
+#                 group) is picked and placed, every other member of the group is
+#                 moved by the same rigid transform, so the whole group stays
+#                 visually attached together in RViz/the planning scene, matching
+#                 what the real weld does in Gazebo - instead of one piece staying
+#                 frozen behind while the rest of the group moves on.
+
+objects:
+  burger:
+    blocks:
+      block1: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: -0.2, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block4: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.2975, -0.2, 0.012], allow_collision_with: ["block1"] }
+      - { type: pick_place, object_id: "block3", place: [0.2658, -0.2, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_red", link1: "r_link2", model2: "lego_4x2_yellow2", link2: "y_link2" }
+      - { type: attach, into: "block1", from: "block3" }
+      - { type: weld, model1: "lego_4x2_red", link1: "r_link1", model2: "lego_4x2_yellow2", link2: "y_link2" }
+      - { type: attach, into: "block2", from: "block3" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.1, 0.063], allow_collision_with: ["block3", "block2", "block1", "block4"] }
+      - { type: weld, model1: "lego_4x2_yellow1", link1: "y_link1", model2: "lego_4x2_red", link2: "r_link1" }
+      - { type: attach, into: "block4", from: "block3" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.0, 0.063], allow_collision_with: ["block4", "block3", "block2", "block1"] }
+
+  ice_cream:
+    blocks:
+      block1: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block3: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block4: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.2, z: 0.012 }
+      block5: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.2, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.233, 0.0, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_4x2_yellow", link1: "y_link2", model2: "lego_2x2_blue", link2: "b_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block3", place: [0.267, 0.0, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_4x2_yellow", link1: "y_link2", model2: "lego_2x2_red", link2: "r_link" }
+      - { type: attach, into: "block1", from: "block3" }
+      - { type: pick_place, object_id: "block2", place: [0.234, 0.2, 0.063], allow_collision_with: ["block3", "block2", "block1", "block5"] }
+      - { type: weld, model1: "lego_2x2_yellow", link1: "y_link1", model2: "lego_4x2_yellow", link2: "y_link2" }
+      - { type: attach, into: "block1", from: "block5" }
+      - { type: pick_place, object_id: "block4", place: [0.25, 0.2, 0.087], allow_collision_with: ["block4", "block3", "block2", "block1", "block5"] }
+      - { type: weld, model1: "lego_2x2_red", link1: "r_link", model2: "lego_2x2_green", link2: "g_link" }
+      - { type: attach, into: "block3", from: "block4" }
+      - { type: pick_place, object_id: "block4", place: [0.25, 0.0, 0.087], allow_collision_with: ["block4", "block3", "block2", "block1", "block5"] }
+
+  big_tree:
+    blocks:
+      block1: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.2, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block3: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block4: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block5: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.2, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.299, 0.198, 0.012], allow_collision_with: ["block1"] }
+      - { type: pick_place, object_id: "block3", place: [0.2658, 0.2, 0.039], allow_collision_with: ["block1", "block2", "block3"] }
+      - { type: weld, model1: "lego_4x2_green1", link1: "g_link1", model2: "lego_4x2_green2", link2: "g_link3" }
+      - { type: attach, into: "block3", from: "block1" }
+      - { type: weld, model1: "lego_2x2_green1", link1: "g_link2", model2: "lego_4x2_green2", link2: "g_link3" }
+      - { type: attach, into: "block3", from: "block2" }
+      - { type: pick_place, object_id: "block3", place: [0.25, -0.2, 0.06305], allow_collision_with: ["block3", "block2", "block1", "block5"] }
+      - { type: weld, model1: "lego_2x2_yellow", link1: "y_link", model2: "lego_4x2_green1", link2: "g_link1" }
+      - { type: pick_place, object_id: "block4", place: [0.25, -0.2, 0.09], allow_collision_with: ["block3", "block2", "block1", "block5"] }
+      - { type: attach, into: "block3", from: "block4" }
+      - { type: weld, model1: "lego_4x2_green2", link1: "g_link3", model2: "lego_2x2_green2", link2: "g_link4" }
+      - { type: attach, into: "block3", from: "block5" }
+      - { type: pick_place, object_id: "block4", place: [0.25, 0.0, 0.087], allow_collision_with: ["block3", "block2", "block1", "block5"] }
+
+  battery:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, -0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_blue", link1: "b_link", model2: "lego_2x2_yellow", link2: "y_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.0, 0.039], allow_collision_with: ["block1"] }
+
+  magnet:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, -0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_red", link1: "r_link", model2: "lego_2x2_blue", link2: "b_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.0, 0.039], allow_collision_with: ["block1"] }
+
+  carrot:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_yellow1", link1: "y_link1", model2: "lego_2x2_yellow2", link2: "y_link2" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.1, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+      - { type: weld, model1: "lego_2x2_yellow2", link1: "y_link2", model2: "lego_2x2_green", link2: "g_link" }
+      - { type: attach, into: "block1", from: "block3" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.0, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+
+  traffic_light:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_green", link1: "g_link", model2: "lego_2x2_yellow", link2: "y_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.1, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+      - { type: weld, model1: "lego_2x2_yellow", link1: "y_link", model2: "lego_2x2_red", link2: "r_link" }
+      - { type: attach, into: "block1", from: "block3" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.0, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+
+  big_carrot:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block4: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.2, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_yellow1", link1: "y_link1", model2: "lego_2x2_yellow2", link2: "y_link2" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block4", place: [0.25, -0.1, 0.039], allow_collision_with: ["block3"] }
+      - { type: weld, model1: "lego_4x2_yellow", link1: "y_link3", model2: "lego_2x2_green", link2: "g_link" }
+      - { type: attach, into: "block3", from: "block4" }
+      - { type: pick_place, object_id: "block4", place: [0.25, 0.1, 0.087], allow_collision_with: ["block4", "block3", "block2", "block1"] }
+      - { type: weld, model1: "lego_2x2_yellow2", link1: "y_link2", model2: "lego_4x2_yellow", link2: "y_link3" }
+      - { type: attach, into: "block2", from: "block3" }
+      - { type: pick_place, object_id: "block4", place: [0.25, 0.0, 0.087], allow_collision_with: ["block4", "block3", "block2", "block1"] }
+
+  e_stop:
+    blocks:
+      block1: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+      block2: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, -0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_4x2_yellow", link1: "y_link", model2: "lego_2x2_red", link2: "r_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.0, 0.039], allow_collision_with: ["block1"] }
+
+  small_tree:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block2: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.1, 0.039], allow_collision_with: ["block1"] }
+      - { type: weld, model1: "lego_2x2_yellow", link1: "y_link", model2: "lego_4x2_green", link2: "g_link1" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.1, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+      - { type: weld, model1: "lego_4x2_green", link1: "g_link1", model2: "lego_2x2_green", link2: "g_link2" }
+      - { type: attach, into: "block2", from: "block3" }
+      - { type: pick_place, object_id: "block3", place: [0.25, 0.0, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+
+  hammer:
+    blocks:
+      block1: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: 0.1, z: 0.012 }
+      block2: { dims: [0.063, 0.0317, 0.024], x: 0.25, y: 0.0, z: 0.012 }
+      block3: { dims: [0.0317, 0.0317, 0.024], x: 0.25, y: -0.1, z: 0.012 }
+    steps:
+      - { type: pick_place, object_id: "block1", place: [0.25, -0.1, 0.039], allow_collision_with: ["block3"] }
+      - { type: weld, model1: "lego_2x2_red1", link1: "r_link1", model2: "lego_2x2_red2", link2: "r_link2" }
+      - { type: attach, into: "block3", from: "block1" }
+      - { type: pick_place, object_id: "block2", place: [0.25, -0.1, 0.063], allow_collision_with: ["block3", "block2", "block1"] }
+      - { type: weld, model1: "lego_2x2_red2", link1: "r_link2", model2: "lego_4x2_blue", link2: "b_link" }
+      - { type: attach, into: "block1", from: "block2" }
+      - { type: pick_place, object_id: "block2", place: [0.25, 0.0, 0.063], allow_collision_with: ["block3", "block2", "block1"] }

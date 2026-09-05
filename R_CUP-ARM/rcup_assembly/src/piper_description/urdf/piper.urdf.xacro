@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="piper" xmlns:xacro="http://ros.org/wiki/xacro">
+<!-- <xacro:include filename="$(find piper_description)/urdf/clamper_arm.xacro" />
+<xacro:include filename="$(find piper_description)/urdf/clamper_arm.ros2_control.xacro" /> -->
+
+    <!-- Arguments -->
+    <xacro:arg name="prefix" default="" />
+    <xacro:arg name="sim_gazebo" default="false" />
+    <xacro:arg name="joint_state_topic_hardware" default="false" />
+    <xacro:arg name="mock_hardware" default="false" />
+    <xacro:arg name="joint_commands_topic" default="/joint_commands_topic" />
+    <xacro:arg name="joint_states_topic" default="/joint_states_topic" />
+
+    <!-- Import macros for main hardware components -->
+    <!-- initial position for simulation -->
+    <xacro:arg name="initial_positions_file" default="$(find piper_description)/config/initial_positions.yaml"/>
+    <!-- convert to property to use substitution in function -->
+    <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+    <xacro:include filename="$(find piper_description)/urdf/piper_macro.xacro" /> 
+<!-- 
+    <xacro:clamper_ros2_control
+        name="clamper"
+        mock_hardware="$(arg mock_hardware)"
+        sim_gazebo="$(arg sim_gazebo)"
+        joint_state_topic_hardware="$(arg joint_state_topic_hardware)"
+        joint_commands_topic="$(arg joint_commands_topic)"
+        joint_states_topic="$(arg joint_states_topic)"/> -->
+
+    <xacro:load_piper
+        parent="world"
+        prefix="$(arg prefix)"
+        joint_state_topic_hardware="$(arg joint_state_topic_hardware)"
+        mock_hardware="$(arg mock_hardware)"
+        sim_gazebo="$(arg sim_gazebo)"
+        initial_positions="${xacro.load_yaml(initial_positions_file)}">
+      <origin xyz="0 0 0" rpy="0 0 0" />  <!-- position robot in the world -->
+    </xacro:load_piper>
+
+    <!-- <xacro:ax_grip parent="base_link">
+        <origin xyz="0.5 0 0.05" rpy="0 0 0"/>
+    </xacro:ax_grip> -->
+
+    <link name="tcp">
+    </link>
+
+    <joint name="fake_joint" type="fixed">
+        <parent link="tool_0" />
+        <child link="tcp" />
+        <origin xyz="0 0 0.08" rpy="0 0 0" />
+    </joint>
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:include filename="$(find piper_description)/urdf/piper.gazebo.xacro" />
+        <xacro:arg name="simulation_controllers" default="$(find piper_description)/config/gz_controllers.yaml" />
+        <xacro:piper_gazebo_plugins
+            simulation_controllers="$(arg simulation_controllers)"/>
+    </xacro:if>
+
+</robot>
