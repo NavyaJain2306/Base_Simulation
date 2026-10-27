@@ -1,64 +1,125 @@
-# Base Simulation — Mobile Robotics and Autonomous Navigation
+# Base Simulation
 
-A robotics simulation project focused on robot modelling, simulation integration, navigation, and planning-related components using ROS 2.
+A mobile robotics project exploring autonomous navigation, robot localisation, path planning, and simulation-based analysis of navigation behaviour.
 
 ## Overview
 
-This repository brings together components for developing and experimenting with a simulated mobile robot. It includes robot-related packages, simulation and navigation configuration, and planning-related software.
+This project focuses on developing and understanding mobile robot navigation workflows in a simulated environment. It brings together robot-related components, planning modules, and navigation software to explore how a robot determines its position, plans a route, and navigates towards a target.
 
-The project has helped me develop practical experience with robotics software integration, simulation workflows, robot models, and debugging in ROS 2.
+The project emphasizes the relationship between localisation, path planning, and navigation execution, providing a foundation for analysing robot behaviour and evaluating navigation performance under different conditions.
 
-I am interested in extending this foundation towards automated evaluation of robotics controllers, where simulation results can be used to test navigation behaviour and measure performance systematically.
+The broader direction is to explore systematic testing and performance evaluation of robotics software using reproducible simulation scenarios and measurable outcomes.
 
-## Repository Structure
+## Simulation Demonstration
 
-The repository is organized into the following main components:
+The following demonstration showcases the robot navigation workflow, with the planned path highlighted in the simulation environment.
 
-- **`robot/`** — Robot description and related simulation, launch, and navigation configuration files.
-- **`robocup_planner/`** — Planning and task-execution-related components.
-- **`sml_messages/`** — Message definitions or message-related components used by the project.
+**[Watch the Simulation Demo](https://github.com/NavyaJain2306/Base_Simulation/blob/main/simulation.mp4)**
 
-Refer to the individual package files for the exact functionality, dependencies, and execution instructions.
+The visualization illustrates the relationship between path planning and navigation, providing a reference for analysing the intended route and the robot's movement through the environment.
 
-## Technologies
+## Key Features and Technical Focus
 
-- ROS 2
-- Python, where used by the relevant nodes and scripts
-- Robot modelling and simulation configuration
-- Navigation and planning-related components
-- Git and GitHub for version control
+### 1. Robot Simulation and Navigation
 
-## Key Learning Areas
+- Working with robot models and simulation environments.
+- Understanding the interaction between robot components and navigation software.
+- Observing robot movement and navigation behaviour in a controlled environment.
+- Exploring the relationship between planning, control, and navigation execution.
 
-Through this project, I have gained exposure to:
+### 2. Path Planning and Route Visualization
 
-- Integrating robot models with simulation environments.
-- Working with ROS 2 packages, launch files, and configuration.
-- Understanding navigation and task-planning workflows.
-- Debugging interactions between robot simulation and software components.
-- Organizing robotics functionality into separate packages.
+- Representing navigation routes through an environment.
+- Visualizing planned paths to understand the robot's intended movement.
+- Exploring the relationship between route planning and actual robot motion.
+- Investigating path validity, obstacle avoidance, and route efficiency.
+- Establishing a foundation for comparing alternative paths using measurable criteria.
 
-## Relevance to Automated Robotics Assessment
+### 3. Robot Localisation and Pose Estimation
 
-A natural direction for extending this work is to develop tools that evaluate robotics software systematically rather than relying exclusively on manual observation.
+- Understanding how a robot's position and orientation are represented in a coordinate frame.
+- Exploring the relationship between robot localisation and navigation.
+- Analysing how position estimates influence route execution.
+- Understanding the distinction between estimated robot pose and ground-truth pose available in simulation.
+- Exploring localisation accuracy and accumulated position error as factors affecting navigation performance.
 
-Potential extensions include:
+### 4. Trajectory Tracking and Navigation Performance
 
-- Automated execution of robot navigation test cases.
-- Measuring goal completion, path length, and execution time.
-- Testing planning algorithms against known reference cases.
-- Recording simulation data for analysis and reporting.
-- Building reusable tests for different navigation scenarios.
+- Understanding the difference between a planned path and the trajectory actually followed by the robot.
+- Analysing deviations between intended and actual robot movement.
+- Evaluating whether the robot reaches its target successfully.
+- Exploring path length, execution time, and trajectory deviation as navigation performance metrics.
+- Investigating how navigation behaviour changes across different environments.
 
-These extensions would require additional implementation and validation; they should not be considered existing features unless they are present in the code.
+### 5. Modular Robotics Software
+
+- Organizing robot-related and planning-related components into separate modules.
+- Supporting integration between navigation components and simulation workflows.
+- Maintaining a structure that can accommodate additional testing and analysis functionality.
+
+## Navigation Analysis and Evaluation
+
+Simulation provides a controlled environment for observing robot behaviour and evaluating navigation performance.
+
+Potential evaluation criteria include:
+
+- **Goal completion:** Whether the robot reaches its intended destination.
+- **Path validity:** Whether the planned route satisfies obstacle and destination constraints.
+- **Path efficiency:** The length or cost of the planned route.
+- **Trajectory tracking:** The difference between the planned route and the robot's actual movement.
+- **Localisation accuracy:** The difference between estimated pose and ground-truth pose, where both are available.
+- **Execution time:** The time required to complete a navigation task.
+- **Robustness:** Whether the navigation system continues to perform successfully under different environmental conditions.
+
+These metrics provide a foundation for evaluating navigation systems through objective measurements rather than visual observation alone.
+
+## Testing and Validation
+
+Reliable robotics software requires systematic testing of individual algorithms as well as complete navigation workflows.
+
+Potential testing approaches include:
+
+- Validating path-planning outputs against known reference cases.
+- Checking path continuity, obstacle avoidance, and destination reachability.
+- Comparing calculated path costs with expected results.
+- Evaluating navigation performance across different scenarios.
+- Comparing estimated robot poses with simulation ground truth where available.
+- Identifying unsuccessful runs and unexpected navigation behaviour.
+- Repeating experiments to assess consistency and reproducibility.
+
+These approaches can help distinguish algorithmic errors from failures that occur during simulated robot movement.
+
+## Simulation Data and Performance Analysis
+
+A further direction is to collect and analyse simulation data to understand navigation behaviour more precisely.
+
+Relevant data may include:
+
+- Robot position and orientation over time.
+- Planned paths and actual trajectories.
+- Goal completion status.
+- Path length and execution duration.
+- Pose-estimation error, where applicable.
+- Collision information, where available.
+- Test outcomes and execution failures.
+
+Collected data can be used to generate trajectory plots, performance summaries, and comparisons between navigation strategies.
 
 ## Future Scope
 
-The intended direction is to explore automated testing and evaluation of simulated mobile robots, including reproducible test scenarios, objective performance metrics, and structured reports.
+Potential extensions include:
 
-This would provide a foundation for investigating simulation-based assessment workflows and reusable testing tools for robotics applications.
+- Automated execution of navigation experiments.
+- Systematic evaluation of path-planning algorithms.
+- Quantitative analysis of localisation and trajectory-tracking performance.
+- Testing navigation behaviour across different environments.
+- Automated collection of simulation metrics.
+- Generation of structured performance reports.
+- Reusable test cases for evaluating different navigation implementations.
+- An extensible framework for adding new scenarios and evaluation criteria.
 
-## Status
+## Project Status
 
-This repository represents ongoing robotics development. Refer to the source code, package documentation, and verified demonstrations for the functionality currently implemented.
+This repository represents ongoing development in mobile robotics simulation and navigation.
 
+The linked demonstration showcases the navigation visualization. Additional localisation analysis, quantitative performance evaluation, automated testing, and experiment-management capabilities can be developed as future extensions where they are not already implemented.
